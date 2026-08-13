@@ -1,0 +1,1 @@
+export const gstCalculator = (amount = 0, rate = 18) => (Number(amount) * Number(rate)) / 100;

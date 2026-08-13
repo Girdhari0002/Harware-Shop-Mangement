@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { listSupplier, getSupplierById, createSupplier, updateSupplier, deleteSupplier } from "../controllers/supplier.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+const router = Router();
+router.use(authenticate);
+router.get("/", listSupplier);
+router.get("/:id", getSupplierById);
+router.post("/", authorizeRoles("admin"), createSupplier);
+router.put("/:id", authorizeRoles("admin"), updateSupplier);
+router.delete("/:id", authorizeRoles("admin"), deleteSupplier);
+export default router;

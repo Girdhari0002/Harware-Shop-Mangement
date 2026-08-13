@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { listBrand, getBrandById, createBrand, updateBrand, deleteBrand } from "../controllers/brand.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+const router = Router();
+router.use(authenticate);
+router.get("/", listBrand);
+router.get("/:id", getBrandById);
+router.post("/", authorizeRoles("admin"), createBrand);
+router.put("/:id", authorizeRoles("admin"), updateBrand);
+router.delete("/:id", authorizeRoles("admin"), deleteBrand);
+export default router;

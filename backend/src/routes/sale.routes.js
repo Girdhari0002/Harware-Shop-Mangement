@@ -1,0 +1,13 @@
+import { Router } from "express";
+import { listSale, getSaleById, createSale, updateSale, deleteSale, getSaleInvoice } from "../controllers/sale.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+const router = Router();
+router.use(authenticate);
+router.get("/", listSale);
+router.get("/:id", getSaleById);
+router.get("/:id/invoice", getSaleInvoice);
+router.post("/", authorizeRoles("admin"), createSale);
+router.put("/:id", authorizeRoles("admin"), updateSale);
+router.delete("/:id", authorizeRoles("admin"), deleteSale);
+export default router;

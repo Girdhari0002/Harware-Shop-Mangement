@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { listPayment, getPaymentById, createPayment, updatePayment, deletePayment } from "../controllers/payment.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+const router = Router();
+router.use(authenticate);
+router.get("/", listPayment);
+router.get("/:id", getPaymentById);
+router.post("/", authorizeRoles("admin"), createPayment);
+router.put("/:id", authorizeRoles("admin"), updatePayment);
+router.delete("/:id", authorizeRoles("admin"), deletePayment);
+export default router;

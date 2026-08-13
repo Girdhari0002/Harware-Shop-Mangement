@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { listExpense, getExpenseById, createExpense, updateExpense, deleteExpense } from "../controllers/expense.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+const router = Router();
+router.use(authenticate);
+router.get("/", listExpense);
+router.get("/:id", getExpenseById);
+router.post("/", authorizeRoles("admin"), createExpense);
+router.put("/:id", authorizeRoles("admin"), updateExpense);
+router.delete("/:id", authorizeRoles("admin"), deleteExpense);
+export default router;

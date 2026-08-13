@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { listPurchase, getPurchaseById, createPurchase, updatePurchase, deletePurchase } from "../controllers/purchase.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { authorizeRoles } from "../middlewares/role.middleware.js";
+const router = Router();
+router.use(authenticate);
+router.get("/", listPurchase);
+router.get("/:id", getPurchaseById);
+router.post("/", authorizeRoles("admin"), createPurchase);
+router.put("/:id", authorizeRoles("admin"), updatePurchase);
+router.delete("/:id", authorizeRoles("admin"), deletePurchase);
+export default router;
