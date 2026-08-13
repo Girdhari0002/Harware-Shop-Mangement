@@ -101,8 +101,6 @@ npm run dev              # starts the app on http://localhost:5173
 Running `npm run seed` creates a protected default admin account that cannot be deleted:
 
 ```
-Email:    admin@erp.local
-Password: Admin@123
 ```
 
 Change the password after your first login (Settings → User Management).
