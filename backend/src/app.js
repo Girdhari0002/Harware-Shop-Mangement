@@ -20,6 +20,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const allowedOrigins = new Set([
   env.clientUrl,
+  "https://hardwareshopmanagement.onrender.com",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:5175",
