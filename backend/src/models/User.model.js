@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema(
     address: { type: String, trim: true, default: "" },
     role: { type: String, default: "staff" },
     isActive: { type: Boolean, default: true },
+    // The seeded default admin — must always be able to log in, so deletion is blocked everywhere.
+    isProtected: { type: Boolean, default: false },
     // Numeric code used to print/scan a gate-pass barcode for on-site staff verification.
     employeeCode: { type: String, unique: true, sparse: true }
   },

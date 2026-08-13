@@ -12,14 +12,20 @@ const seedAdmin = async () => {
     const existing = await User.findOne({ email });
 
     if (existing) {
-      console.log("Admin user already exists. Seeding skipped.");
+      if (!existing.isProtected) {
+        existing.isProtected = true;
+        await existing.save({ validateModifiedOnly: true });
+      }
+      console.log("Admin user already exists (now marked as protected). Seeding skipped.");
+      console.log(`Email: ${email}`);
     } else {
       await User.create({
         fullName: "Default Admin",
         email,
         password: "Admin@123",
         role: "admin",
-        isActive: true
+        isActive: true,
+        isProtected: true
       });
       console.log("Admin user seeded successfully!");
       console.log(`Email: ${email}`);

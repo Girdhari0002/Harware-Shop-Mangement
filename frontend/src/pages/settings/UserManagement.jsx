@@ -165,9 +165,13 @@ export default function UserManagement() {
   };
 
   const handleDelete = async (id) => {
-    await api.delete(`/settings/${id}`);
-    showToast("User deleted!", "success");
-    load();
+    try {
+      await api.delete(`/settings/${id}`);
+      showToast("User deleted!", "success");
+      load();
+    } catch (e) {
+      showToast(e?.response?.data?.message || "Failed to delete user", "danger");
+    }
   };
 
   const handleImportClick = () => fileInputRef.current?.click();
@@ -273,6 +277,7 @@ export default function UserManagement() {
         onAdd={openAdd}
         onEdit={openEdit}
         onDelete={handleDelete}
+        canDelete={(row) => !row.isProtected}
         addLabel="Add User"
         extraActions={(row) => (
           <Button variant="ghost" size="sm" onClick={() => openGatePass(row)} className="h-8 px-2 py-0">

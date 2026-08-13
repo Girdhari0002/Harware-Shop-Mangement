@@ -7,7 +7,7 @@ const CrudPage = ({
   title, subtitle, columns, data, loading,
   onAdd, onEdit, onDelete,
   searchValue, onSearchChange, addLabel = "Add New",
-  extraActions, headerExtra,
+  extraActions, headerExtra, canDelete,
 }) => {
   const [deleting, setDeleting] = useState(null);
 
@@ -19,17 +19,26 @@ const CrudPage = ({
 
   const columnsWithActions = [
     ...columns,
-    { key: "actions", label: "Actions", render: (_, row) => (
-      <div className="flex items-center gap-2">
-        {extraActions ? extraActions(row) : null}
-        <Button variant="ghost" size="sm" onClick={() => onEdit(row)} className="h-8 px-2 py-0">
-          ✏️ Edit
-        </Button>
-        <Button variant="ghost" size="sm" onClick={() => handleDelete(row._id)} disabled={deleting === row._id} className="h-8 px-2 py-0 text-danger hover:bg-danger-light hover:text-danger">
-          🗑️ Delete
-        </Button>
-      </div>
-    )},
+    { key: "actions", label: "Actions", render: (_, row) => {
+      const deletable = !canDelete || canDelete(row);
+      return (
+        <div className="flex items-center gap-2">
+          {extraActions ? extraActions(row) : null}
+          <Button variant="ghost" size="sm" onClick={() => onEdit(row)} className="h-8 px-2 py-0">
+            ✏️ Edit
+          </Button>
+          {deletable ? (
+            <Button variant="ghost" size="sm" onClick={() => handleDelete(row._id)} disabled={deleting === row._id} className="h-8 px-2 py-0 text-danger hover:bg-danger-light hover:text-danger">
+              🗑️ Delete
+            </Button>
+          ) : (
+            <span className="h-8 px-2 py-0 inline-flex items-center gap-1 text-xs text-text-muted" title="Default admin account is protected and cannot be deleted">
+              🔒 Protected
+            </span>
+          )}
+        </div>
+      );
+    }},
   ];
 
   return (

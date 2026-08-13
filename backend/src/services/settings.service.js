@@ -16,7 +16,7 @@ const pick = (row, ...keys) => {
 };
 
 const coll = "users";
-const sanitize = (u) => ({ _id: u._id, id: u.id, fullName: u.fullName, email: u.email, phone: u.phone || "", address: u.address || "", role: u.role, isActive: u.isActive, employeeCode: u.employeeCode, createdAt: u.createdAt, updatedAt: u.updatedAt });
+const sanitize = (u) => ({ _id: u._id, id: u.id, fullName: u.fullName, email: u.email, phone: u.phone || "", address: u.address || "", role: u.role, isActive: u.isActive, isProtected: u.isProtected || false, employeeCode: u.employeeCode, createdAt: u.createdAt, updatedAt: u.updatedAt });
 
 export const settingsService = {
   async listUsers() {
@@ -66,7 +66,13 @@ export const settingsService = {
     return { success: true };
   },
   async removeUser(id) {
-    if (useDemoData()) return demoStore.remove(coll, id);
+    if (useDemoData()) {
+      const u = demoStore.get(coll, id);
+      if (u?.isProtected) { const e = new Error("The default admin account cannot be deleted"); e.statusCode = 403; throw e; }
+      return demoStore.remove(coll, id);
+    }
+    const user = await User.findById(id).select("isProtected");
+    if (user?.isProtected) { const e = new Error("The default admin account cannot be deleted"); e.statusCode = 403; throw e; }
     const r = await User.deleteOne({ _id: id });
     return r.deletedCount > 0;
   },
