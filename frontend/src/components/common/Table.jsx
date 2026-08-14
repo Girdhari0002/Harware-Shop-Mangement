@@ -1,7 +1,13 @@
 const Table = ({ columns = [], rows = [], emptyMessage = "No data found.", className = "" }) => {
+  // "actions" is rendered as a normal cell on desktop, but gets its own full-width
+  // row (instead of a cramped label:value line) in the mobile card layout below.
+  const dataColumns = columns.filter((c) => c.key !== "actions");
+  const actionsColumn = columns.find((c) => c.key === "actions");
+
   return (
     <div className={`erp-card overflow-hidden ${className}`}>
-      <div className="erp-scrollbar overflow-x-auto">
+      {/* Desktop / tablet: real table, horizontally scrollable as a last resort */}
+      <div className="hidden md:block erp-scrollbar overflow-x-auto">
         <table className="erp-table">
           <thead>
             <tr>
@@ -38,6 +44,33 @@ const Table = ({ columns = [], rows = [], emptyMessage = "No data found.", class
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile: one card per row instead of a horizontally-scrolling table */}
+      <div className="md:hidden">
+        {rows.length === 0 ? (
+          <div className="px-4 py-10 text-center text-text-muted text-sm">{emptyMessage}</div>
+        ) : (
+          <div className="divide-y divide-border">
+            {rows.map((row, index) => (
+              <div key={row.id || index} className="p-4 space-y-2.5">
+                {dataColumns.map((column) => (
+                  <div key={column.key} className="flex items-start justify-between gap-3">
+                    <span className="text-xs font-medium text-text-muted flex-shrink-0 pt-0.5">{column.label}</span>
+                    <span className={`text-sm text-text-primary text-right min-w-0 ${column.numeric ? "tabular-nums" : ""}`}>
+                      {column.render ? column.render(row[column.key], row) : row[column.key]}
+                    </span>
+                  </div>
+                ))}
+                {actionsColumn && (
+                  <div className="pt-1.5 flex flex-wrap justify-end gap-2 border-t border-border/60 mt-2.5 pt-2.5">
+                    {actionsColumn.render(row[actionsColumn.key], row)}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

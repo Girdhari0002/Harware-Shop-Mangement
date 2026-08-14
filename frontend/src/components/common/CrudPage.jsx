@@ -22,7 +22,7 @@ const CrudPage = ({
     { key: "actions", label: "Actions", render: (_, row) => {
       const deletable = !canDelete || canDelete(row);
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {extraActions ? extraActions(row) : null}
           <Button variant="ghost" size="sm" onClick={() => onEdit(row)} className="h-8 px-2 py-0">
             ✏️ Edit
