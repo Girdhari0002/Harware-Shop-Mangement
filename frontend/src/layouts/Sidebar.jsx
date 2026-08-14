@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useCompany from "../hooks/useCompany";
 import { hasRole, filterNavSections, ROLES } from "../utils/roles";
@@ -133,19 +133,25 @@ const Sidebar = ({ mobileOpen = false, onCloseMobile } = {}) => {
       >
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-5 border-b border-border flex-shrink-0">
-        {logoUrl ? (
-          <img src={logoUrl} alt={name} className="w-9 h-9 rounded-xl object-cover flex-shrink-0" />
-        ) : (
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0" style={{ background: "linear-gradient(135deg, #2F66B3, #24518F)" }}>
-            ⚡
-          </div>
-        )}
-        {!collapsed && (
-          <div className="overflow-hidden">
-            <div className="text-sm font-bold text-text-primary leading-tight truncate">{name}</div>
-            <div className="text-xs font-medium text-text-muted">Admin Panel</div>
-          </div>
-        )}
+        <Link
+          to="/dashboard"
+          onClick={onCloseMobile}
+          className="flex items-center gap-3 overflow-hidden min-w-0 hover:opacity-80 transition-opacity"
+        >
+          {logoUrl ? (
+            <img src={logoUrl} alt={name} className="w-9 h-9 rounded-xl object-cover flex-shrink-0" />
+          ) : (
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold text-lg flex-shrink-0" style={{ background: "linear-gradient(135deg, #2F66B3, #24518F)" }}>
+              ⚡
+            </div>
+          )}
+          {!collapsed && (
+            <div className="overflow-hidden">
+              <div className="text-sm font-bold text-text-primary leading-tight truncate">{name}</div>
+              <div className="text-xs font-medium text-text-muted">Admin Panel</div>
+            </div>
+          )}
+        </Link>
         {isDesktop ? (
           <button
             onClick={toggleCollapse}
