@@ -32,7 +32,7 @@ const Navbar = ({ title, onMenuClick }) => {
 
   return (
     <header className="h-14 lg:h-16 border-b border-border bg-surface px-3 sm:px-4 lg:px-6 flex-shrink-0 sticky top-0 z-20 ml-0 lg:ml-[var(--sidebar-width,256px)]">
-      <div className="mx-auto flex max-w-[1440px] h-full items-center justify-between">
+      <div className="flex h-full items-center justify-between">
         <div className="flex items-center gap-3 min-w-0">
           <button
             onClick={onMenuClick}
