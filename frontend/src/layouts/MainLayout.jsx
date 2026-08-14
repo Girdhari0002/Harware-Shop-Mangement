@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
@@ -30,6 +30,7 @@ const pageTitle = (pathname) => {
 const MainLayout = () => {
   const location = useLocation();
   const title = pageTitle(location.pathname);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   // Initialize sidebar width CSS variable on mount
   useEffect(() => {
@@ -38,18 +39,26 @@ const MainLayout = () => {
     document.documentElement.style.setProperty("--sidebar-width", isCollapsed ? "64px" : "256px");
   }, []);
 
+  // Close the mobile drawer automatically if the viewport grows past the mobile breakpoint
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    const handleChange = (e) => { if (e.matches) setMobileNavOpen(false); };
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden" style={{ marginLeft: "var(--sidebar-width, 256px)" }}>
+      <div className="flex-1 flex flex-col overflow-hidden w-full min-w-0 ml-0 lg:ml-[var(--sidebar-width,256px)]">
         {/* Topbar */}
-        <Navbar title={title} />
+        <Navbar title={title} onMenuClick={() => setMobileNavOpen(true)} />
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-6 lg:p-8">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>
       </div>

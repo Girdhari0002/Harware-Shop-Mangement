@@ -61,7 +61,7 @@ const navSections = [
   }
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ mobileOpen = false, onCloseMobile } = {}) => {
   const navigate = useNavigate();
   const { user, logout } = useAuth() || {};
   const { name, logoUrl } = useCompany() || {};
@@ -97,10 +97,20 @@ const Sidebar = () => {
   };
 
   return (
-    <nav
-      className={`fixed left-0 top-0 z-30 h-screen transition-all duration-300 border-r border-border bg-surface flex flex-col ${isCollapsed ? "w-16" : "w-64"}`}
-      style={{ minWidth: isCollapsed ? "64px" : "256px", width: isCollapsed ? "64px" : "256px" }}
-    >
+    <>
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/50 lg:hidden animate-in fade-in-0 duration-200"
+          onClick={onCloseMobile}
+          aria-hidden="true"
+        />
+      )}
+
+      <nav
+        className={`fixed left-0 top-0 z-40 h-screen transition-transform duration-300 border-r border-border bg-surface flex flex-col ${isCollapsed ? "w-16" : "w-64"} ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
+        style={{ minWidth: isCollapsed ? "64px" : "256px", width: isCollapsed ? "64px" : "256px" }}
+      >
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-5 border-b border-border flex-shrink-0">
         {logoUrl ? (
@@ -116,9 +126,21 @@ const Sidebar = () => {
             <div className="text-xs font-medium text-text-muted">Admin Panel</div>
           </div>
         )}
+        {/* Mobile close button */}
+        <button
+          onClick={onCloseMobile}
+          className="ml-auto flex-shrink-0 p-1.5 rounded-lg text-text-muted hover:bg-hover-bg hover:text-text-primary transition-colors lg:hidden"
+          aria-label="Close menu"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+        {/* Desktop collapse toggle */}
         <button
           onClick={toggleCollapse}
-          className={`ml-auto flex-shrink-0 p-1.5 rounded-lg text-text-muted hover:bg-hover-bg hover:text-text-primary transition-colors ${isCollapsed ? "rotate-180" : ""}`}
+          className={`hidden lg:flex ml-auto flex-shrink-0 p-1.5 rounded-lg text-text-muted hover:bg-hover-bg hover:text-text-primary transition-colors ${isCollapsed ? "rotate-180" : ""}`}
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -140,6 +162,7 @@ const Sidebar = () => {
               <NavLink
                 key={item.to}
                 to={item.to}
+                onClick={onCloseMobile}
                 className={({ isActive }) => `
                   flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150
                   ${isActive
@@ -181,7 +204,8 @@ const Sidebar = () => {
           {!isCollapsed && <span>Sign Out</span>}
         </button>
       </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 

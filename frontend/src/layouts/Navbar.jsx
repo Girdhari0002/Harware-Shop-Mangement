@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Button from "../components/common/Button";
 
-const Navbar = ({ title }) => {
+const Navbar = ({ title, onMenuClick }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const { user, logout } = useAuth();
@@ -31,12 +31,23 @@ const Navbar = ({ title }) => {
   };
 
   return (
-    <header className="h-14 lg:h-16 border-b border-border bg-surface px-4 lg:px-6 flex-shrink-0 sticky top-0 z-20" style={{ marginLeft: "var(--sidebar-width, 256px)" }}>
+    <header className="h-14 lg:h-16 border-b border-border bg-surface px-3 sm:px-4 lg:px-6 flex-shrink-0 sticky top-0 z-20 ml-0 lg:ml-[var(--sidebar-width,256px)]">
       <div className="mx-auto flex max-w-[1440px] h-full items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 min-w-0">
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden flex-shrink-0 p-2 -ml-2 rounded-lg text-text-secondary hover:bg-hover-bg hover:text-text-primary transition-colors"
+            aria-label="Open menu"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="4" y1="6" x2="20" y2="6" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="18" x2="20" y2="18" />
+            </svg>
+          </button>
           <div className="hidden sm:block w-px h-6 bg-border" />
-          <div>
-            <h1 className="text-lg lg:text-xl font-semibold text-text-primary">{title}</h1>
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-lg lg:text-xl font-semibold text-text-primary truncate">{title}</h1>
             <p className="text-xs text-text-muted hidden md:block">Hardware & Plywood ERP</p>
           </div>
         </div>

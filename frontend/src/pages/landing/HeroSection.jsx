@@ -65,20 +65,20 @@ const HeroSection = () => {
           {/* Right - Dashboard Visual */}
           <div className="relative animate-in fade-in-0 slide-in-from-right-4 duration-700 delay-300">
             <div className="relative">
-              {/* Floating cards */}
-              <div className="absolute -top-4 -right-4 w-48 h-32 erp-card bg-primary-light border-primary/30 animate-float delay-100">
+              {/* Floating cards — hidden below md so they can't push the mockup wider than the viewport */}
+              <div className="hidden md:block absolute -top-4 -right-4 w-40 lg:w-48 h-28 lg:h-32 erp-card bg-primary-light border-primary/30 animate-float delay-100">
                 <div className="p-3">
                   <div className="text-xs text-text-secondary mb-1">Total Sales</div>
                   <div className="text-2xl font-bold text-primary">₹2,45,000</div>
                 </div>
               </div>
-              <div className="absolute top-20 -left-6 w-48 h-32 erp-card bg-success-light border-success/30 animate-float delay-200">
+              <div className="hidden md:block absolute top-20 -left-6 w-40 lg:w-48 h-28 lg:h-32 erp-card bg-success-light border-success/30 animate-float delay-200">
                 <div className="p-3">
                   <div className="text-xs text-text-secondary mb-1">Profit</div>
                   <div className="text-2xl font-bold text-success">₹89,500</div>
                 </div>
               </div>
-              <div className="absolute bottom-10 right-10 w-48 h-32 erp-card bg-warning-light border-warning/30 animate-float delay-300">
+              <div className="hidden md:block absolute bottom-10 right-10 w-40 lg:w-48 h-28 lg:h-32 erp-card bg-warning-light border-warning/30 animate-float delay-300">
                 <div className="p-3">
                   <div className="text-xs text-text-secondary mb-1">Low Stock</div>
                   <div className="text-2xl font-bold text-warning">3 Items</div>
