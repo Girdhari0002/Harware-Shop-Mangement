@@ -10,8 +10,8 @@ const HeroSection = () => {
         <div className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full opacity-5 blur-3xl" style={{ background: "#2F66B3" }} />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="relative w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Content */}
           <div className="text-center lg:text-left animate-in fade-in-0 slide-in-from-left-4 duration-700">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 bg-primary-light border border-primary/30 animate-in fade-in-0 slide-in-from-bottom-2 duration-700 delay-100">
